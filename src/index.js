@@ -1,15 +1,35 @@
 module.exports = function count(s, pairs) {
   let N = 1;
   let lenPairs = pairs.length;
-  let lenS = s.length;
+  
 
-  if (pairs[0][1] > 40) return 0;
-  if (pairs.length > 8) return 0;
+  if (pairs[0][1] > 40) return 0;  
   if (s.length > 5) return 0;
 
   for (let i = 0; i < lenPairs; i++){
     N *= Math.pow(pairs[i][0], pairs[i][1]);
   }
+  
+  if (s == '1') {
+
+    let product = 1;
+
+    for (i = 0; i < lenPairs; i++){
+      product *= pairs[i][0];
+    }    
+
+    let counter = 1;
+
+    for (i = 0; i < lenPairs; i++){
+      counter *= (pairs[i][0]-1);
+    }
+
+    let ans = counter*N/product;
+
+    return ans;
+  }
+
+
 
   let maxPrime = 0;
   let product = 1;
