@@ -1,22 +1,23 @@
 module.exports = function count(s, pairs) {
   let N = 1;
   let lenPairs = pairs.length;
-  
+  let lenS = s.length;
 
-  if (pairs[0][1] > 40) return 0;  
-  if (s.length > 5) return 0;
+  if (pairs[0][1] > 40) return 0;
+  if (lenS > 5) return 0;
 
   for (let i = 0; i < lenPairs; i++){
     N *= Math.pow(pairs[i][0], pairs[i][1]);
   }
-  
-  if (s == '1') {
 
-    let product = 1;
+  let product = 1;
 
-    for (i = 0; i < lenPairs; i++){
-      product *= pairs[i][0];
-    }    
+  for (i = 0; i < lenPairs; i++){
+    product *= pairs[i][0];
+  }
+
+
+  if (s == "1") {
 
     let counter = 1;
 
@@ -27,38 +28,39 @@ module.exports = function count(s, pairs) {
     let ans = counter*N/product;
 
     return ans;
+
   }
 
-
-
-  let maxPrime = 0;
-  let product = 1;
-
-  for (i = 0; i < lenPairs; i++){
-    if (pairs[i][0] > maxPrime) {maxPrime = pairs[i][0];}
-    product *= pairs[i][0];
+  let arrS = [];
+  for (i = 0; i < lenS; i++){
+    arrS.push(+s[i]);
   }
 
-  let s1 = "01";
+   let arr = [0, 1];
 
   outer:
   for (let j = 2; j < product; j++){
     for (i = 0; i < lenPairs; i++){
       if (j % pairs[i][0] == 0){
-        s1 += "0";
+        arr.push(0);
         continue outer;
       }
     }
-    s1 += "1";
+    arr.push(1);
   }
 
   let counter = 0;
-  let pos = s1.indexOf(s);
-  while (pos !== -1) {
+
+  first:
+  for (let j = 0; j < product; j++){
+    for (i = 0; i < lenS; i++){
+      if (arr[i+j] !== arrS[i]) continue first;
+    }
     counter++;
-    pos = s1.indexOf(s, pos + 1);
+    if (counter == 1000000007) counter = 0;
   }
 
+ 
   let ans = counter*N/product;
 
   return ans;
